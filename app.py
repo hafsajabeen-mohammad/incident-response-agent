@@ -709,7 +709,6 @@ def local_fallback_memories(df: pd.DataFrame, query: str, limit: int = 5) -> lis
         )
     return out
 
-# -------------------- Sidebar --------------------
 with st.sidebar:
     st.markdown('<div class="brand">🛡️ Incident Response</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub">AI-powered incident investigation</div>', unsafe_allow_html=True)
@@ -717,7 +716,7 @@ with st.sidebar:
 
     page = st.radio(
         "Navigation",
-        ["🚨 Report Incident", "📋 Incident History"],
+        ["🚨 Report Incident", " Incident History"],
         label_visibility="collapsed",
     )
 
@@ -739,21 +738,21 @@ with st.sidebar:
     st.caption(f"Memory bank: {BANK_ID}")
 
 # -------------------- Report page --------------------
-if page == "🚨 Report Incident":
-    st.markdown("# 🛡️ Incident Response Agent")
+if page == " Report Incident":
+    st.markdown("#  Incident Response Agent")
     st.markdown("AI-powered incident investigation with persistent organizational memory.")
 
     c1, c2, c3 = st.columns(3)
     with c1:
-        st.markdown('<div class="metric"><div class="metric-title">🚨 Incident Status</div><div class="metric-value">READY</div></div>', unsafe_allow_html=True)
+        st.markdown('<div class="metric"><div class="metric-title"> Incident Status</div><div class="metric-value">READY</div></div>', unsafe_allow_html=True)
     with c2:
         memory_status = "ACTIVE" if hindsight_ready else "SETUP"
-        st.markdown(f'<div class="metric"><div class="metric-title">🧠 Memory System</div><div class="metric-value">{memory_status}</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric"><div class="metric-title"> Memory System</div><div class="metric-value">{memory_status}</div></div>', unsafe_allow_html=True)
     with c3:
         ai_status = "ONLINE" if groq_ready else "SETUP"
-        st.markdown(f'<div class="metric"><div class="metric-title">⚙️ AI Engine</div><div class="metric-value">{ai_status}</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric"><div class="metric-title"> AI Engine</div><div class="metric-value">{ai_status}</div></div>', unsafe_allow_html=True)
 
-    st.markdown("## 🚨 Report New Incident")
+    st.markdown("##  Report New Incident")
     st.write("Describe the incident and let the agent recall similar incidents, previous resolutions, and troubleshooting patterns.")
 
     col1, col2 = st.columns(2)
@@ -765,7 +764,7 @@ if page == "🚨 Report Incident":
     subject = st.text_input("Incident Subject", placeholder="Example: API server unable to connect to database")
     description = st.text_area("Incident Description", placeholder="Describe symptoms, errors, affected service, or observations...", height=150)
 
-    investigate = st.button("🔎 Investigate Incident", use_container_width=True)
+    investigate = st.button(" Investigate Incident", use_container_width=True)
 
     if investigate:
         if not subject.strip() or not description.strip():
@@ -782,7 +781,7 @@ if page == "🚨 Report Incident":
         # Recall first so the current incident does not contaminate its own memory search.
         memories = []
         hindsight_error = None
-        with st.spinner("🧠 Searching Hindsight memory..."):
+        with st.spinner(" Searching Hindsight memory..."):
             try:
                 memories = get_memory(f"{incident_type} {subject} {description}", max_tokens=4096)
             except Exception as exc:
@@ -810,7 +809,7 @@ if page == "🚨 Report Incident":
         except Exception as exc:
             render_note("warning", f"The incident could not be saved to Hindsight: {exc}")
 
-        st.markdown("## 🚨 Current Incident")
+        st.markdown("##  Current Incident")
         st.markdown(
             f'<div class="incident-card"><h3>{html.escape(subject)}</h3>'
             f'<p><b>Type:</b> {html.escape(incident_type)} &nbsp; | &nbsp; '
@@ -819,12 +818,12 @@ if page == "🚨 Report Incident":
             unsafe_allow_html=True,
         )
 
-        st.markdown("## 🧠 Hindsight Memory")
+        st.markdown("##  Hindsight Memory")
         st.caption(f"Found {len(cleaned)} relevant historical memories. Dates are not displayed because the source dataset has no incident-date field.")
         if cleaned:
             for i, memory in enumerate(cleaned, 1):
                 st.markdown(
-                    f'<div class="memory-card"><div class="memory-title">🧠 Historical Incident {i}</div>'
+                    f'<div class="memory-card"><div class="memory-title"> Historical Incident {i}</div>'
                     f'<div class="memory-text">{html.escape(memory).replace(chr(10), "<br>")}</div></div>',
                     unsafe_allow_html=True,
                 )
@@ -833,13 +832,13 @@ if page == "🚨 Report Incident":
 
         ai_response = None
         ai_error = None
-        with st.spinner("🤖 AI is analyzing the incident..."):
+        with st.spinner(" AI is analyzing the incident..."):
             try:
                 ai_response = analyze_with_groq(incident_text, cleaned)
             except Exception as exc:
                 ai_error = str(exc)
 
-        st.markdown("## 🤖 AI Response")
+        st.markdown("##  AI Response")
         if ai_response:
             with st.container(border=True):
                 st.markdown(ai_response)
@@ -859,7 +858,7 @@ if page == "🚨 Report Incident":
 
 # -------------------- History page --------------------
 else:
-    st.markdown("# 📋 Incident History")
+    st.markdown("#  Incident History")
     st.write("Browse historical incidents from the dataset and incidents investigated in this app.")
 
     tab1, tab2 = st.tabs(["Historical Dataset", "Investigated Incidents"])
@@ -931,4 +930,4 @@ else:
                 st.markdown("### AI Response")
                 st.markdown(r["ai_response"])
 
-st.markdown("<div style='text-align:center;color:#64748b;font-size:13px;margin-top:40px;'>🧠 Powered by Hindsight Memory • 🤖 AI Incident Investigation</div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align:center;color:#64748b;font-size:13px;margin-top:40px;'> Powered by Hindsight Memory • AI Incident Investigation</div>", unsafe_allow_html=True)
