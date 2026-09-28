@@ -715,10 +715,11 @@ with st.sidebar:
     st.markdown("<hr>", unsafe_allow_html=True)
 
     page = st.radio(
-        "Navigation",
-        ["🚨 Report Incident", " Incident History"],
-        label_visibility="collapsed",
-    )
+    "Navigation",
+    ["Report Incident", "Incident History"],
+    label_visibility="collapsed",
+)
+    
 
     st.markdown("<hr>", unsafe_allow_html=True)
     st.markdown("<div style='font-weight:800;'>System Status</div>", unsafe_allow_html=True)
@@ -738,7 +739,7 @@ with st.sidebar:
     st.caption(f"Memory bank: {BANK_ID}")
 
 # -------------------- Report page --------------------
-if page == " Report Incident":
+if page == "Report Incident":
     st.markdown("#  Incident Response Agent")
     st.markdown("AI-powered incident investigation with persistent organizational memory.")
 
